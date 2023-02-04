@@ -1,31 +1,12 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-    mode: 'development',
-    entry: {
-      index: './src/index.js',
-      //print: './src/print.js',
-    },
-  devtool: 'inline-source-map',
-  devServer: {
-    static: './dist',
-  },
-  
+  mode: "development",
+  entry: "./src/index.js",
   output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    clean: true,
-  },
-  module: {
-    rules: [
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
-  },
-  optimization: {
-    runtimeChunk: 'single',
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
   },
 
+  devtool: "inline-source-map",
 };

@@ -1,0 +1,54 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+main {
+  display: flex;
+}
+
+aside {
+  width: 200px;
+  background-color: lightgray;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+
+
+@media (max-width: 500px) {
+    #sidebar {
+      transform: translateX(-100%);
+    }
+  }
+  
+  #sidebar.force-show {
+    transform: translateX(0%);
+  }
+
+
+h2 {
+  margin: 0;
+  padding: 10px;
+}
+
+#task-display {
+  width: 100%;
+  background-color: white;
+  padding: 20px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+}

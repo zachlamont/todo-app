@@ -1,19 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo App</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="main.js"></script>
-</head>
-<body>
-    <div id="content">
-Div id="content"
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <button id="menu-btn">Menu</button>
+      <h1>To-Do App</h1>
+      <button id="add-task-btn">Add New Task</button>
+    </header>
+    <main>
+      <aside id="sidebar">
+        <div id="tasks-menu">
+          <h2>Tasks</h2>
+        </div>
+        <div id="projects-menu">
+          <h2>Projects</h2>
+        </div>
+      </aside>
+      <section id="task-container">Tasks here</section>
+    </main>
 
+    <!-- Add Task Modal -->
+    <div id="add-task-modal" class="modal">
+      <form id="add-task-form">
+        <input type="text" id="task-title" placeholder="Title" />
+        <textarea id="task-desc" placeholder="Description"></textarea>
+        <input type="date" id="due-date" />
+        <select id="priority">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <input type="text" id="project" placeholder="Project" />
+        <button type="submit">Add Task</button>
+      </form>
     </div>
-    <div class="red">Red</div>
-    <script src="bundle.js"></script>
-</body>
+
+    <!-- Add Project Modal -->
+    <div id="add-project-modal" class="modal">
+      <form>
+        <input type="text" id="project-name" placeholder="Project Name" />
+        <button type="submit">Add Project</button>
+      </form>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
 </html>
