@@ -1,5 +1,13 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 header {
@@ -7,30 +15,51 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+  background: rgb(0, 17, 77);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 17, 77, 1) 0%,
+    rgba(20, 71, 120, 1) 63%,
+    rgba(11, 121, 142, 1) 100%
+  );
 }
 
 main {
   display: flex;
-}
-
-aside {
-  width: 200px;
-  background-color: lightgray;
-  height: 100%;
+  flex: 1;
   transition: transform 0.5s ease;
 }
 
+h1 {
+  color: white;
+  display: none;
+}
+h2 {
+  color: rgb(0, 0, 0);
+}
+h3 {
+  font-size: 1.1em;
+  font-weight: 200;
+}
+
+aside {
+  width: 250px;
+  background-color: lightgray;
+  height: 100%;
+
+  background: rgb(220, 219, 219);
+  padding: 20px;
+}
 
 @media (max-width: 500px) {
-    #sidebar {
-      transform: translateX(-100%);
-    }
+  #main {
+    transform: translateX(-250px);
   }
-  
-  #sidebar.force-show {
-    transform: translateX(0%);
-  }
+}
 
+#main.force-show {
+  transform: translateX(0%);
+}
 
 h2 {
   margin: 0;
@@ -44,6 +73,9 @@ h2 {
 }
 
 .modal {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   position: fixed;
   top: 0;
   left: 0;
@@ -52,3 +84,56 @@ h2 {
   background-color: rgba(0, 0, 0, 0.5);
   display: none;
 }
+#task-container {
+  padding: 20px;
+}
+.form-container {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid lightgrey;
+  margin-top:15vh;
+  
+}
+    
+    @media (min-width: 400px) {
+    .form-container {
+    width: 400px;
+    }
+    }
+
+.form-item{
+    display:flex;
+    flex-direction: column;
+    margin:15px;
+    
+}
+input,
+textarea,
+select{
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding:5px;
+    margin-top: 5px;
+    height:2.2em;
+}
+.submit-button{
+    background-color: rgba(20, 71, 120, 1);
+    color:white;
+    border: none;
+    font-size: 1.1em;
+    padding:5px;
+    border-radius: 5px;
+    margin:10px;
+    width:200px;
+    align-self: center;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transition: transform 0.1s ease-in-out;
+}
+
+.submit-button:hover {
+    background-color: rgba(11, 121, 142, 1);
+  }

@@ -6,10 +6,10 @@ let tasks = [];
 
 //Toggle sidebar display
 const menuButton = document.getElementById("menu-btn");
-const sidebar = document.getElementById("sidebar");
+const main = document.getElementById("main");
 
 menuButton.addEventListener("click", function () {
-  sidebar.classList.toggle("force-show");
+  main.classList.toggle("force-show");
 });
 
 // Factory function to create task objects
@@ -28,7 +28,7 @@ const addTaskButton = document.getElementById("add-task-btn");
 const addTaskModal = document.getElementById("add-task-modal");
 
 addTaskButton.addEventListener("click", () => {
-  addTaskModal.style.display = "block";
+  addTaskModal.style.display = "flex";
 });
 
 // Display tasks function
