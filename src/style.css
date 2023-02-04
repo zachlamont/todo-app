@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+
+}
+
+#content {
+}
+
+.blue {
+  background-color: aqua;
+}
+.red{
+    background-color: red;
+}
