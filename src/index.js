@@ -30,6 +30,9 @@ let tasks = [
   },
 ];
 
+// Array of Projects
+let projects = [];
+
 let editingTask = false;
 let editIndex;
 
@@ -43,7 +46,15 @@ const completedTaskContainer = document.getElementById(
   "completed-task-container"
 );
 const addTaskForm = document.getElementById("add-task-form");
+const projectsMenu = document.getElementById("projects-menu");
 
+const addProjectButton = document.querySelector("#add-new-project");
+const addProjectModal = document.querySelector("#add-project-modal");
+const addProjectForm = document.querySelector("#add-project-form");
+const projectNameInput = document.querySelector("#project-name");
+const projectsContainer = document.querySelector("#projects-container");
+
+//Toggle sidebar visibility
 menuButton.addEventListener("click", function () {
   main.classList.toggle("force-show");
 });
@@ -206,6 +217,7 @@ function addTask(tasks) {
   }
   displayTasks();
   displayCompletedTasks();
+  console.log(tasks);
 
   // Hide the modal
   document.getElementById("add-task-modal").style.display = "none";
@@ -217,6 +229,39 @@ addTaskForm.addEventListener("submit", (event) => {
   event.preventDefault();
   addTask(tasks);
 });
+
+// Show the modal when the add project button is clicked
+addProjectButton.addEventListener("click", () => {
+  addProjectModal.style.display = "flex";
+});
+
+// Add the project to the projects array and update the projects list in the DOM
+addProjectForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  addProject();
+});
+
+function addProject() {
+  // Get the project name from the input
+  const projectName = projectNameInput.value;
+
+  // Add the project name to the projects array
+  projects.push(projectName);
+
+  // Update the projects list in the DOM
+  projectsContainer.innerHTML = "";
+  for (const project of projects) {
+    const projectItem = document.createElement("li");
+    projectItem.textContent = project;
+    projectsContainer.appendChild(projectItem);
+  }
+
+  // Reset the form
+  addProjectForm.reset();
+
+  // Hide the modal
+  addProjectModal.style.display = "none";
+}
 
 displayTasks();
 displayCompletedTasks();
