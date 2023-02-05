@@ -26,6 +26,8 @@
         </div>
         <div id="projects-menu">
           <h3>📅 Projects</h3>
+          <div id="projects-container"></div>
+          <button id="add-new-project">+ New Project</button>
         </div>
       </aside>
       <div class="content">
@@ -75,10 +77,12 @@
 
     <!-- Add Project Modal -->
     <div id="add-project-modal" class="modal">
-      <form>
-        <input type="text" id="project-name" placeholder="Project Name" />
-        <button type="submit">Add Project</button>
-      </form>
+      <div class="form-container">
+        <form id="add-project-form">
+          <input type="text" id="project-name" placeholder="Project Name" />
+          <button type="submit">Add Project</button>
+        </form>
+      </div>
     </div>
 
     <script src="main.js"></script>
