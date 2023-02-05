@@ -2,6 +2,7 @@
 
 console.log("It's working 333");
 
+//Array of task objects
 let tasks = [
   {
     id: 1,
@@ -38,6 +39,9 @@ const main = document.getElementById("main");
 const addTaskButton = document.getElementById("add-task-btn");
 const addTaskModal = document.getElementById("add-task-modal");
 const taskContainer = document.getElementById("task-container");
+const completedTaskContainer = document.getElementById(
+  "completed-task-container"
+);
 const addTaskForm = document.getElementById("add-task-form");
 
 menuButton.addEventListener("click", function () {
@@ -53,6 +57,7 @@ function createTask(id, title, description, dueDate, priority, project) {
     dueDate,
     priority,
     project,
+    complete: false,
   };
 }
 //Display the modal
@@ -65,46 +70,110 @@ addTaskButton.addEventListener("click", () => {
 function displayTasks() {
   taskContainer.innerHTML = "";
 
-  tasks.forEach((task, index) => {
-    const taskDiv = document.createElement("div");
-    taskDiv.classList.add("task");
+  tasks
+    .filter((task) => !task.complete)
+    .forEach((task, index) => {
+      const taskDiv = document.createElement("div");
+      taskDiv.classList.add("task");
 
-    const titleDiv = document.createElement("div");
-    titleDiv.innerText = task.title;
-    titleDiv.classList.add("task-title");
-    taskDiv.appendChild(titleDiv);
+      const checkbox = document.createElement("input");
+      checkbox.setAttribute("type", "checkbox");
+      checkbox.addEventListener("click", () => {
+        task.complete = !task.complete;
+        displayTasks();
+        displayCompletedTasks();
+      });
+      taskDiv.appendChild(checkbox);
 
-    const deleteButton = document.createElement("button");
-    deleteButton.innerText = "Delete";
-    deleteButton.classList.add("delete-button");
-    deleteButton.addEventListener("click", () => {
-      deleteTask(task.id);
+      const titleDiv = document.createElement("div");
+      titleDiv.innerText = task.title;
+      titleDiv.classList.add("task-title");
+      taskDiv.appendChild(titleDiv);
+
+      const deleteButton = document.createElement("button");
+      deleteButton.innerText = "Delete";
+      deleteButton.classList.add("delete-button");
+      deleteButton.addEventListener("click", () => {
+        deleteTask(task.id);
+      });
+      taskDiv.appendChild(deleteButton);
+
+      const editButton = document.createElement("button");
+      editButton.innerText = "Edit";
+      editButton.classList.add("edit-button");
+      editButton.addEventListener("click", () => {
+        document.getElementById("add-task-modal").style.display = "flex";
+        editingTask = true;
+        editIndex = index;
+        document.getElementById("task-title").value = task.title;
+        document.getElementById("task-desc").value = task.description;
+        document.getElementById("due-date").value = task.dueDate;
+        document.getElementById("priority").value = task.priority;
+        document.getElementById("project").value = task.project;
+      });
+      taskDiv.appendChild(editButton);
+
+      taskContainer.appendChild(taskDiv);
     });
-    taskDiv.appendChild(deleteButton);
+}
 
-    const editButton = document.createElement("button");
-    editButton.innerText = "Edit";
-    editButton.classList.add("edit-button");
-    editButton.addEventListener("click", () => {
-      document.getElementById("add-task-modal").style.display = "flex";
-      editingTask = true;
-      editIndex = index;
-      document.getElementById("task-title").value = task.title;
-      document.getElementById("task-desc").value = task.description;
-      document.getElementById("due-date").value = task.dueDate;
-      document.getElementById("priority").value = task.priority;
-      document.getElementById("project").value = task.project;
+// Display completed tasks function
+function displayCompletedTasks() {
+  completedTaskContainer.innerHTML = "";
+
+  tasks
+    .filter((task) => task.complete)
+    .forEach((task, index) => {
+      const taskDiv = document.createElement("div");
+      taskDiv.classList.add("task");
+
+      const checkbox = document.createElement("input");
+      checkbox.setAttribute("type", "checkbox");
+      checkbox.checked = task.complete;
+      checkbox.addEventListener("click", () => {
+        task.complete = !task.complete;
+        displayTasks();
+        displayCompletedTasks();
+      });
+      taskDiv.appendChild(checkbox);
+
+      const titleDiv = document.createElement("div");
+      titleDiv.innerText = task.title;
+      titleDiv.classList.add("task-title");
+      taskDiv.appendChild(titleDiv);
+
+      const deleteButton = document.createElement("button");
+      deleteButton.innerText = "Delete";
+      deleteButton.classList.add("delete-button");
+      deleteButton.addEventListener("click", () => {
+        deleteTask(task.id);
+      });
+      taskDiv.appendChild(deleteButton);
+
+      const editButton = document.createElement("button");
+      editButton.innerText = "Edit";
+      editButton.classList.add("edit-button");
+      editButton.addEventListener("click", () => {
+        document.getElementById("add-task-modal").style.display = "flex";
+        editingTask = true;
+        editIndex = index;
+        document.getElementById("task-title").value = task.title;
+        document.getElementById("task-desc").value = task.description;
+        document.getElementById("due-date").value = task.dueDate;
+        document.getElementById("priority").value = task.priority;
+        document.getElementById("project").value = task.project;
+      });
+      taskDiv.appendChild(editButton);
+
+      completedTaskContainer.appendChild(taskDiv);
     });
-    taskDiv.appendChild(editButton);
-
-    taskContainer.appendChild(taskDiv);
-  });
 }
 
 // Delete task function
 function deleteTask(id) {
   tasks = tasks.filter((task) => task.id !== id);
   displayTasks();
+  displayCompletedTasks();
 }
 
 // Add task function
@@ -136,6 +205,7 @@ function addTask(tasks) {
     editingTask = false;
   }
   displayTasks();
+  displayCompletedTasks();
 
   // Hide the modal
   document.getElementById("add-task-modal").style.display = "none";
@@ -149,3 +219,4 @@ addTaskForm.addEventListener("submit", (event) => {
 });
 
 displayTasks();
+displayCompletedTasks();
