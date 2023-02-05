@@ -137,3 +137,9 @@ select{
 .submit-button:hover {
     background-color: rgba(11, 121, 142, 1);
   }
+
+  .task{
+    display: flex;
+    border-bottom: 1px solid lightgray;
+    padding:10px;
+  }

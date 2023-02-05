@@ -29,16 +29,9 @@ let tasks = [
   },
 ];
 
-let editingTask = false;
-let editIndex;
-
 //Toggle sidebar display
 const menuButton = document.getElementById("menu-btn");
 const main = document.getElementById("main");
-const addTaskButton = document.getElementById("add-task-btn");
-const addTaskModal = document.getElementById("add-task-modal");
-const taskContainer = document.getElementById("task-container");
-const addTaskForm = document.getElementById("add-task-form");
 
 menuButton.addEventListener("click", function () {
   main.classList.toggle("force-show");
@@ -56,6 +49,8 @@ function createTask(id, title, description, dueDate, priority, project) {
   };
 }
 //Display the modal
+const addTaskButton = document.getElementById("add-task-btn");
+const addTaskModal = document.getElementById("add-task-modal");
 
 addTaskButton.addEventListener("click", () => {
   addTaskModal.style.display = "flex";
@@ -63,9 +58,10 @@ addTaskButton.addEventListener("click", () => {
 
 // Display tasks function
 function displayTasks() {
+  const taskContainer = document.getElementById("task-container");
   taskContainer.innerHTML = "";
 
-  tasks.forEach((task, index) => {
+  tasks.forEach((task) => {
     const taskDiv = document.createElement("div");
     taskDiv.classList.add("task");
 
@@ -73,6 +69,11 @@ function displayTasks() {
     titleDiv.innerText = task.title;
     titleDiv.classList.add("task-title");
     taskDiv.appendChild(titleDiv);
+
+    const dateDiv = document.createElement("div");
+    dateDiv.innerText = task.dueDate;
+    dateDiv.classList.add("task-date");
+    //taskDiv.appendChild(dateDiv);
 
     const deleteButton = document.createElement("button");
     deleteButton.innerText = "Delete";
@@ -87,13 +88,7 @@ function displayTasks() {
     editButton.classList.add("edit-button");
     editButton.addEventListener("click", () => {
       document.getElementById("add-task-modal").style.display = "flex";
-      editingTask = true;
-      editIndex = index;
-      document.getElementById("task-title").value = task.title;
-      document.getElementById("task-desc").value = task.description;
-      document.getElementById("due-date").value = task.dueDate;
-      document.getElementById("priority").value = task.priority;
-      document.getElementById("project").value = task.project;
+      editTask(task);
     });
     taskDiv.appendChild(editButton);
 
@@ -107,45 +102,90 @@ function deleteTask(id) {
   displayTasks();
 }
 
+// Edit task function
+function editTask(task) {
+  document.getElementById("task-title").value = task.title;
+  document.getElementById("task-desc").value = task.description;
+  document.getElementById("due-date").value = task.dueDate;
+  document.getElementById("priority").value = task.priority;
+  document.getElementById("project").value = task.project;
+
+  const addTaskForm = document.getElementById("add-task-form");
+
+
+  addTaskForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    let title = document.getElementById("task-title").value;
+    let description = document.getElementById("task-desc").value;
+    let dueDate = document.getElementById("due-date").value;
+    let priority = document.getElementById("priority").value;
+    let project = document.getElementById("project").value;
+
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].id === task.id) {
+        tasks[i].title = title;
+        tasks[i].description = description;
+        tasks[i].dueDate = dueDate;
+        tasks[i].priority = priority;
+        tasks[i].project = project;
+        break;
+      } else {
+        const id = tasks.length + 1;
+  const newTask = createTask(
+    id,
+    title,
+    description,
+    dueDate,
+    priority,
+    project
+  );
+  tasks.push(newTask);
+      }
+    }
+
+    displayTasks();
+  console.log(tasks);
+  event.target.reset();
+
+  // Hide the modal
+  document.getElementById("add-task-modal").style.display = "none";
+  });
+}
+
+
+
+
+
 // Add task function
 
-function addTask(tasks) {
+const addTaskForm = document.getElementById("add-task-form");
+addTaskForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
   let title = document.getElementById("task-title").value;
   let description = document.getElementById("task-desc").value;
   let dueDate = document.getElementById("due-date").value;
   let priority = document.getElementById("priority").value;
   let project = document.getElementById("project").value;
 
-  if (!editingTask) {
-    const id = tasks.length + 1;
-    const newTask = createTask(
-      id,
-      title,
-      description,
-      dueDate,
-      priority,
-      project
-    );
-    tasks.push(newTask);
-  } else {
-    tasks[editIndex].title = title;
-    tasks[editIndex].description = description;
-    tasks[editIndex].dueDate = dueDate;
-    tasks[editIndex].priority = priority;
-    tasks[editIndex].project = project;
-    editingTask = false;
-  }
+  const id = tasks.length + 1;
+  const newTask = createTask(
+    id,
+    title,
+    description,
+    dueDate,
+    priority,
+    project
+  );
+  tasks.push(newTask);
+
   displayTasks();
+  console.log(tasks);
+  event.target.reset();
 
   // Hide the modal
   document.getElementById("add-task-modal").style.display = "none";
-  // Reset form
-  document.getElementById("add-task-form").reset();
-}
-
-addTaskForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  addTask(tasks);
 });
 
 displayTasks();
