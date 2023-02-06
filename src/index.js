@@ -75,6 +75,7 @@ function createTask(id, title, description, dueDate, priority, project) {
 
 addTaskButton.addEventListener("click", () => {
   addTaskModal.style.display = "flex";
+  displayProjects();
 });
 
 // Display tasks function
@@ -261,6 +262,23 @@ function addProject() {
 
   // Hide the modal
   addProjectModal.style.display = "none";
+
+  console.log(projects);
+  updateOptions();
+}
+//Update 'Project' options in the form
+
+// Get the select element
+const projectSelect = document.querySelector("#project");
+
+function updateOptions() {
+  projectSelect.innerHTML = "";
+  projects.forEach((project) => {
+    const option = document.createElement("option");
+    option.value = project;
+    option.innerText = project;
+    projectSelect.appendChild(option);
+  });
 }
 
 displayTasks();
