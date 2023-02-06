@@ -32,6 +32,7 @@ let tasks = [
 
 // Array of Projects
 let projects = [];
+let selectedProject = "";
 
 let editingTask = false;
 let editIndex;
@@ -73,10 +74,10 @@ function createTask(id, title, description, dueDate, priority, project) {
 }
 //Display the modal
 
-addTaskButton.addEventListener("click", () => {
-  addTaskModal.style.display = "flex";
-  displayProjects();
-});
+//addTaskButton.addEventListener("click", () => {
+//addTaskModal.style.display = "flex";
+//updateOptions();
+//});
 
 // Display tasks function
 function displayTasks() {
@@ -251,11 +252,20 @@ function addProject() {
 
   // Update the projects list in the DOM
   projectsContainer.innerHTML = "";
-  for (const project of projects) {
-    const projectItem = document.createElement("li");
-    projectItem.textContent = project;
+  projects.forEach((project) => {
+    const projectItem = document.createElement("div");
+    projectItem.innerText = project;
+    projectItem.classList.add("project-item");
+    projectItem.addEventListener("click", () => {
+      selectedProject = project;
+      console.log(selectedProject);
+
+      displayTasks();
+      displayCompletedTasks();
+    });
     projectsContainer.appendChild(projectItem);
-  }
+  });
+  console.log(selectedProject);
 
   // Reset the form
   addProjectForm.reset();
