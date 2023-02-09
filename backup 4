@@ -79,65 +79,114 @@ addTaskButton.addEventListener("click", () => {
   updateOptions();
 });
 
-function displayAllTasks() {
+// Display tasks function
+function displayTasks() {
   taskContainer.innerHTML = "";
+
+  tasks
+    .filter((task) => !task.complete)
+    .forEach((task, index) => {
+      const taskDiv = document.createElement("div");
+      taskDiv.classList.add("task");
+
+      const checkbox = document.createElement("input");
+      checkbox.setAttribute("type", "checkbox");
+      checkbox.addEventListener("click", () => {
+        task.complete = !task.complete;
+        displayTasks();
+        displayCompletedTasks();
+      });
+      taskDiv.appendChild(checkbox);
+
+      const titleDiv = document.createElement("div");
+      titleDiv.innerText = task.title;
+      titleDiv.classList.add("task-title");
+      taskDiv.appendChild(titleDiv);
+
+      const deleteButton = document.createElement("button");
+      deleteButton.innerText = "Delete";
+      deleteButton.classList.add("delete-button");
+      deleteButton.addEventListener("click", () => {
+        deleteTask(task.id);
+      });
+      taskDiv.appendChild(deleteButton);
+
+      const editButton = document.createElement("button");
+      editButton.innerText = "Edit";
+      editButton.classList.add("edit-button");
+      editButton.addEventListener("click", () => {
+        document.getElementById("add-task-modal").style.display = "flex";
+        editingTask = true;
+        editIndex = index;
+        document.getElementById("task-title").value = task.title;
+        document.getElementById("task-desc").value = task.description;
+        document.getElementById("due-date").value = task.dueDate;
+        document.getElementById("priority").value = task.priority;
+        document.getElementById("project").value = task.project;
+      });
+      taskDiv.appendChild(editButton);
+      taskContainer.appendChild(taskDiv);
+      info.innerText = JSON.stringify(tasks);
+    });
+}
+
+// Display completed tasks function
+function displayCompletedTasks() {
   completedTaskContainer.innerHTML = "";
 
-  tasks.forEach((task, index) => {
-    const taskDiv = document.createElement("div");
-    taskDiv.classList.add("task");
+  tasks
+    .filter((task) => task.complete)
+    .forEach((task, index) => {
+      const taskDiv = document.createElement("div");
+      taskDiv.classList.add("task");
 
-    const checkbox = document.createElement("input");
-    checkbox.setAttribute("type", "checkbox");
-    checkbox.checked = task.complete; // Check/uncheck the checkbox based on the value of `task.complete`
-    checkbox.addEventListener("click", () => {
-      task.complete = !task.complete;
-      displayAllTasks();
-    });
-    taskDiv.appendChild(checkbox);
+      const checkbox = document.createElement("input");
+      checkbox.setAttribute("type", "checkbox");
+      checkbox.checked = task.complete;
+      checkbox.addEventListener("click", () => {
+        task.complete = !task.complete;
+        displayTasks();
+        displayCompletedTasks();
+      });
+      taskDiv.appendChild(checkbox);
 
-    const titleDiv = document.createElement("div");
-    titleDiv.innerText = task.title;
-    titleDiv.classList.add("task-title");
-    taskDiv.appendChild(titleDiv);
+      const titleDiv = document.createElement("div");
+      titleDiv.innerText = task.title;
+      titleDiv.classList.add("task-title");
+      taskDiv.appendChild(titleDiv);
 
-    const deleteButton = document.createElement("button");
-    deleteButton.innerText = "Delete";
-    deleteButton.classList.add("delete-button");
-    deleteButton.addEventListener("click", () => {
-      deleteTask(task.id);
-    });
-    taskDiv.appendChild(deleteButton);
+      const deleteButton = document.createElement("button");
+      deleteButton.innerText = "Delete";
+      deleteButton.classList.add("delete-button");
+      deleteButton.addEventListener("click", () => {
+        deleteTask(task.id);
+      });
+      taskDiv.appendChild(deleteButton);
 
-    const editButton = document.createElement("button");
-    editButton.innerText = "Edit";
-    editButton.classList.add("edit-button");
-    editButton.addEventListener("click", () => {
-      document.getElementById("add-task-modal").style.display = "flex";
-      editingTask = true;
-      editIndex = index;
-      document.getElementById("task-title").value = task.title;
-      document.getElementById("task-desc").value = task.description;
-      document.getElementById("due-date").value = task.dueDate;
-      document.getElementById("priority").value = task.priority;
-      document.getElementById("project").value = task.project;
-    });
-    taskDiv.appendChild(editButton);
+      const editButton = document.createElement("button");
+      editButton.innerText = "Edit";
+      editButton.classList.add("edit-button");
+      editButton.addEventListener("click", () => {
+        document.getElementById("add-task-modal").style.display = "flex";
+        editingTask = true;
+        editIndex = index;
+        document.getElementById("task-title").value = task.title;
+        document.getElementById("task-desc").value = task.description;
+        document.getElementById("due-date").value = task.dueDate;
+        document.getElementById("priority").value = task.priority;
+        document.getElementById("project").value = task.project;
+      });
+      taskDiv.appendChild(editButton);
 
-    if (task.complete) {
       completedTaskContainer.appendChild(taskDiv);
-    } else {
-      taskContainer.appendChild(taskDiv);
-    }
-  });
-
-  info.innerText = JSON.stringify(tasks);
+    });
 }
 
 // Delete task function
 function deleteTask(id) {
   tasks = tasks.filter((task) => task.id !== id);
-  displayAllTasks();
+  displayTasks();
+  displayCompletedTasks();
 }
 
 // Add task function
@@ -168,7 +217,8 @@ function addTask(tasks) {
     tasks[editIndex].project = project;
     editingTask = false;
   }
-  displayAllTasks();
+  displayTasks();
+  displayCompletedTasks();
   console.log(tasks);
 
   // Hide the modal
@@ -210,7 +260,8 @@ function addProject() {
       selectedProject = project;
       console.log(selectedProject);
 
-      displayAllTasks();
+      displayTasks();
+      displayCompletedTasks();
     });
     projectsContainer.appendChild(projectItem);
   });
@@ -240,4 +291,5 @@ function updateOptions() {
   });
 }
 
-displayAllTasks();
+displayTasks();
+displayCompletedTasks();

@@ -29,12 +29,13 @@
           <div id="projects-container"></div>
           <button id="add-new-project">+ New Project</button>
         </div>
+        <div id="info"></div>
       </aside>
       <div class="content">
-        <h2>My Tasks</h2>
+        <h2 id="tasks-heading">My Tasks</h2>
 
         <div id="task-container"></div>
-        <h2>Completed Tasks</h2>
+        <h2 id="completed-tasks-heading">Completed Tasks</h2>
         <div id="completed-task-container"></div>
       </div>
     </main>
@@ -66,9 +67,7 @@
           </div>
           <div class="form-item">
             <label for="project">Project:</label>
-            <select id="project">
-              <option value="" disabled selected>Select a project</option>
-            </select>
+            <select id="project"></select>
           </div>
           <div class="form-item">
             <button class="submit-button" type="submit">Add Task</button>

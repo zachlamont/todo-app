@@ -9,7 +9,7 @@ let tasks = [
     description: "Take Bono for a 10 minute walk",
     dueDate: "2023-02-07",
     priority: "low",
-    project: "Dog ",
+    project: "My Tasks",
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ let tasks = [
     description: "Learn the CAGED method",
     dueDate: "2023-02-11",
     priority: "low",
-    project: "Music",
+    project: "My Tasks",
   },
   {
     id: 3,
@@ -25,7 +25,7 @@ let tasks = [
     description: "Pay bill online",
     dueDate: "2023-02-25",
     priority: "medium",
-    project: "Money",
+    project: "My Tasks",
   },
 ];
 
@@ -112,7 +112,6 @@ function editTask(task) {
 
   const addTaskForm = document.getElementById("add-task-form");
 
-
   addTaskForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -132,30 +131,26 @@ function editTask(task) {
         break;
       } else {
         const id = tasks.length + 1;
-  const newTask = createTask(
-    id,
-    title,
-    description,
-    dueDate,
-    priority,
-    project
-  );
-  tasks.push(newTask);
+        const newTask = createTask(
+          id,
+          title,
+          description,
+          dueDate,
+          priority,
+          project
+        );
+        tasks.push(newTask);
       }
     }
 
     displayTasks();
-  console.log(tasks);
-  event.target.reset();
+    console.log(tasks);
+    event.target.reset();
 
-  // Hide the modal
-  document.getElementById("add-task-modal").style.display = "none";
+    // Hide the modal
+    document.getElementById("add-task-modal").style.display = "none";
   });
 }
-
-
-
-
 
 // Add task function
 
