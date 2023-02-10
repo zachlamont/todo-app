@@ -6,7 +6,7 @@ let tasks = [
     description: "Take Bono for a 10 minute walk",
     dueDate: "2023-02-07",
     priority: "low",
-    project: "My Tasks",
+    project: "📝 My Tasks",
     complete: false,
   },
   {
@@ -15,7 +15,7 @@ let tasks = [
     description: "Learn the CAGED method",
     dueDate: "2023-02-11",
     priority: "low",
-    project: "My Tasks",
+    project: "📝 My Tasks",
     complete: false,
   },
   {
@@ -24,17 +24,17 @@ let tasks = [
     description: "Pay bill online",
     dueDate: "2023-02-25",
     priority: "medium",
-    project: "My Tasks",
+    project: "📝 My Tasks",
     complete: false,
   },
 ];
 
 // Array of Projects
-let projects = ["My Tasks"];
-let selectedProject = "My Tasks";
+let projects = ["📝 My Tasks"];
+let selectedProject = "📝 My Tasks";
 
 let editingTask = false;
-let editIndex;
+let editTaskId;
 
 //Toggle sidebar display
 const menuButton = document.getElementById("menu-btn");
@@ -53,6 +53,7 @@ const addProjectModal = document.querySelector("#add-project-modal");
 const addProjectForm = document.querySelector("#add-project-form");
 const projectNameInput = document.querySelector("#project-name");
 const projectsContainer = document.querySelector("#projects-container");
+const projectSelect = document.querySelector("#project");
 const info = document.getElementById("info");
 
 //Toggle sidebar visibility
@@ -73,63 +74,65 @@ function createTask(id, title, description, dueDate, priority, project) {
   };
 }
 //Display the modal
-
 addTaskButton.addEventListener("click", () => {
   addTaskModal.style.display = "flex";
   updateOptions();
 });
 
+//Display lists of tasks
 function displayAllTasks() {
   taskContainer.innerHTML = "";
   completedTaskContainer.innerHTML = "";
 
-  tasks.forEach((task, index) => {
-    const taskDiv = document.createElement("div");
-    taskDiv.classList.add("task");
+  tasks
+    .filter((task) => task.project === selectedProject)
+    .forEach((task) => {
+      const taskDiv = document.createElement("div");
+      taskDiv.classList.add("task");
 
-    const checkbox = document.createElement("input");
-    checkbox.setAttribute("type", "checkbox");
-    checkbox.checked = task.complete; // Check/uncheck the checkbox based on the value of `task.complete`
-    checkbox.addEventListener("click", () => {
-      task.complete = !task.complete;
-      displayAllTasks();
+      const checkbox = document.createElement("input");
+      checkbox.setAttribute("type", "checkbox");
+      checkbox.checked = task.complete; // Check/uncheck the checkbox based on the value of `task.complete`
+      checkbox.addEventListener("click", () => {
+        task.complete = !task.complete;
+        displayAllTasks();
+      });
+      taskDiv.appendChild(checkbox);
+
+      const titleDiv = document.createElement("div");
+      titleDiv.innerText = task.title;
+      titleDiv.classList.add("task-title");
+      taskDiv.appendChild(titleDiv);
+
+      const deleteButton = document.createElement("button");
+      deleteButton.innerText = "Delete";
+      deleteButton.classList.add("delete-button");
+      deleteButton.addEventListener("click", () => {
+        deleteTask(task.id);
+      });
+      taskDiv.appendChild(deleteButton);
+
+      const editButton = document.createElement("button");
+      editButton.innerText = "Edit";
+      editButton.classList.add("edit-button");
+      editButton.addEventListener("click", () => {
+        document.getElementById("add-task-modal").style.display = "flex";
+        editingTask = true;
+        editTaskId = task.id;
+        document.getElementById("task-title").value = task.title;
+        document.getElementById("task-desc").value = task.description;
+        document.getElementById("due-date").value = task.dueDate;
+        document.getElementById("priority").value = task.priority;
+        document.getElementById("project").value = task.project;
+      });
+      taskDiv.appendChild(editButton);
+
+      if (task.complete) {
+        completedTaskContainer.appendChild(taskDiv);
+      } else {
+        taskContainer.appendChild(taskDiv);
+      }
     });
-    taskDiv.appendChild(checkbox);
-
-    const titleDiv = document.createElement("div");
-    titleDiv.innerText = task.title;
-    titleDiv.classList.add("task-title");
-    taskDiv.appendChild(titleDiv);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.innerText = "Delete";
-    deleteButton.classList.add("delete-button");
-    deleteButton.addEventListener("click", () => {
-      deleteTask(task.id);
-    });
-    taskDiv.appendChild(deleteButton);
-
-    const editButton = document.createElement("button");
-    editButton.innerText = "Edit";
-    editButton.classList.add("edit-button");
-    editButton.addEventListener("click", () => {
-      document.getElementById("add-task-modal").style.display = "flex";
-      editingTask = true;
-      editIndex = index;
-      document.getElementById("task-title").value = task.title;
-      document.getElementById("task-desc").value = task.description;
-      document.getElementById("due-date").value = task.dueDate;
-      document.getElementById("priority").value = task.priority;
-      document.getElementById("project").value = task.project;
-    });
-    taskDiv.appendChild(editButton);
-
-    if (task.complete) {
-      completedTaskContainer.appendChild(taskDiv);
-    } else {
-      taskContainer.appendChild(taskDiv);
-    }
-  });
 
   info.innerText = JSON.stringify(tasks);
 }
@@ -140,8 +143,7 @@ function deleteTask(id) {
   displayAllTasks();
 }
 
-// Add task function
-
+//Add a new task object
 function addTask(tasks) {
   let title = document.getElementById("task-title").value;
   let description = document.getElementById("task-desc").value;
@@ -150,7 +152,7 @@ function addTask(tasks) {
   let project = document.getElementById("project").value;
 
   if (!editingTask) {
-    const id = tasks.length + 1;
+    const id = Math.max(...tasks.map((task) => task.id)) + 1;
     const newTask = createTask(
       id,
       title,
@@ -161,11 +163,15 @@ function addTask(tasks) {
     );
     tasks.push(newTask);
   } else {
-    tasks[editIndex].title = title;
-    tasks[editIndex].description = description;
-    tasks[editIndex].dueDate = dueDate;
-    tasks[editIndex].priority = priority;
-    tasks[editIndex].project = project;
+    tasks.forEach((task) => {
+      if (task.id === editTaskId) {
+        task.title = title;
+        task.description = description;
+        task.dueDate = dueDate;
+        task.priority = priority;
+        task.project = project;
+      }
+    });
     editingTask = false;
   }
   displayAllTasks();
@@ -177,12 +183,13 @@ function addTask(tasks) {
   document.getElementById("add-task-form").reset();
 }
 
+//Call addTask function when form is submitted
 addTaskForm.addEventListener("submit", (event) => {
   event.preventDefault();
   addTask(tasks);
 });
 
-// Show the modal when the add project button is clicked
+// Show the modal when the 'New Project' button is clicked
 addProjectButton.addEventListener("click", () => {
   addProjectModal.style.display = "flex";
 });
@@ -211,6 +218,7 @@ function addProject() {
       console.log(selectedProject);
 
       displayAllTasks();
+      info.innerText = JSON.stringify(tasks);
     });
     projectsContainer.appendChild(projectItem);
   });
@@ -224,12 +232,11 @@ function addProject() {
 
   console.log(projects);
   updateOptions();
+
+  info.innerText = JSON.stringify(tasks);
 }
-//Update 'Project' options in the form
 
-// Get the select element
-const projectSelect = document.querySelector("#project");
-
+// Update select dropdown with list of projects
 function updateOptions() {
   projectSelect.innerHTML = "";
   projects.forEach((project) => {
@@ -241,3 +248,5 @@ function updateOptions() {
 }
 
 displayAllTasks();
+addProject();
+info.innerText = JSON.stringify(tasks);
