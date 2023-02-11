@@ -78,6 +78,8 @@ function createTask(id, title, description, dueDate, priority, project) {
 }
 //Display the modal
 addTaskButton.addEventListener("click", () => {
+  submitTaskButton.innerText = "Add Task";
+
   addTaskModal.style.display = "flex";
   updateOptions();
 });
@@ -119,6 +121,8 @@ function displayAllTasks() {
       editButton.innerText = "Edit";
       editButton.classList.add("edit-button");
       editButton.addEventListener("click", () => {
+        submitTaskButton.innerText = "Edit Task";
+
         document.getElementById("add-task-modal").style.display = "flex";
         editingTask = true;
         editTaskId = task.id;
