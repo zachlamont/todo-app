@@ -95,6 +95,9 @@ function displayAllTasks() {
       const taskDiv = document.createElement("div");
       taskDiv.classList.add("task");
 
+      const buttonsContainer = document.createElement("div");
+      buttonsContainer.classList.add("buttons-container");
+
       const checkbox = document.createElement("input");
       checkbox.setAttribute("type", "checkbox");
       checkbox.checked = task.complete; // Check/uncheck the checkbox based on the value of `task.complete`
@@ -124,7 +127,7 @@ function displayAllTasks() {
         document.getElementById("priority").value = task.priority;
         document.getElementById("project").value = task.project;
       });
-      taskDiv.appendChild(editButton);
+      buttonsContainer.appendChild(editButton);
 
       const moveToProjectDiv = document.createElement("div");
       moveToProjectDiv.classList.add("move-to-project");
@@ -165,7 +168,7 @@ function displayAllTasks() {
       });
 
       moveToProjectDiv.appendChild(moveToProjectIcon);
-      taskDiv.appendChild(moveToProjectDiv);
+      buttonsContainer.appendChild(moveToProjectDiv);
 
       const deleteButton = document.createElement("button");
       deleteButton.innerText = "Delete";
@@ -173,7 +176,9 @@ function displayAllTasks() {
       deleteButton.addEventListener("click", () => {
         deleteTask(task.id);
       });
-      taskDiv.appendChild(deleteButton);
+      buttonsContainer.appendChild(deleteButton);
+
+      taskDiv.appendChild(buttonsContainer);
 
       if (task.complete) {
         completedTaskContainer.appendChild(taskDiv);
