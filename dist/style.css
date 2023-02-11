@@ -160,12 +160,21 @@ select {
   display: flex;
   margin-left: auto;
 }
-#projects-container{
-  margin:20px;
+#projects-container {
+  margin: 20px;
 }
 .project-item {
   margin: 10px;
 }
 #add-new-project {
-  margin-left:30px;
+  margin-left: 30px;
+}
+.icon-light {
+  width: 30px;
+  height: auto;
+  opacity: 0.65;
+}
+.light-button {
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
 }
