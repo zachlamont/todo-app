@@ -21,22 +21,21 @@
     </header>
     <main id="main">
       <aside id="sidebar">
-        <div id="tasks-menu">
-          <h3>📝 Tasks</h3>
-        </div>
         <div id="projects-menu">
-          <h3>📅 Projects</h3>
           <div id="projects-container"></div>
           <button id="add-new-project">+ New Project</button>
         </div>
         <div id="info"></div>
       </aside>
       <div class="content">
-        <h2 id="tasks-heading">My Tasks</h2>
-
-        <div id="task-container"></div>
-        <h2 id="completed-tasks-heading">Completed Tasks</h2>
-        <div id="completed-task-container"></div>
+        <div class="tasks-divider">
+          <h2 id="tasks-heading">My Tasks</h2>
+          <div class="task-container" id="task-container"></div>
+        </div>
+        <div class="tasks-divider">
+          <h2 id="completed-tasks-heading">Completed Tasks</h2>
+          <div class="task-container" id="completed-task-container"></div>
+        </div>
       </div>
     </main>
 
@@ -70,7 +69,11 @@
             <select id="project"></select>
           </div>
           <div class="form-item">
-            <button id="submit-task-button" class="submit-button" type="submit"></button>
+            <button
+              id="submit-task-button"
+              class="submit-button"
+              type="submit"
+            ></button>
           </div>
         </form>
       </div>
