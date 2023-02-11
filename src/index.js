@@ -184,7 +184,7 @@ function displayAllTasks() {
 
   tasksHeading.innerText = selectedProject;
 
-  info.innerText = JSON.stringify(tasks);
+  //info.innerText = JSON.stringify(tasks);
 }
 
 // Delete task function
@@ -272,7 +272,7 @@ function addProject() {
       console.log(selectedProject);
 
       displayAllTasks();
-      info.innerText = JSON.stringify(tasks);
+      //info.innerText = JSON.stringify(tasks);
     });
     projectsContainer.appendChild(projectItem);
   });
@@ -287,7 +287,7 @@ function addProject() {
   console.log(projects);
   updateOptions();
 
-  info.innerText = JSON.stringify(tasks);
+  //info.innerText = JSON.stringify(tasks);
 }
 
 // Update select dropdown with list of projects
@@ -304,4 +304,4 @@ function updateOptions() {
 displayAllTasks();
 addProject();
 updateOptions();
-info.innerText = JSON.stringify(tasks);
+//info.innerText = JSON.stringify(tasks);
