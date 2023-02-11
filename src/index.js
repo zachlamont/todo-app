@@ -56,6 +56,9 @@ const projectsContainer = document.querySelector("#projects-container");
 const projectSelect = document.querySelector("#project");
 const info = document.getElementById("info");
 
+const tasksHeading = document.getElementById("tasks-heading");
+const submitTaskButton = document.getElementById("submit-task-button");
+
 //Toggle sidebar visibility
 menuButton.addEventListener("click", function () {
   main.classList.toggle("force-show");
@@ -134,6 +137,8 @@ function displayAllTasks() {
       }
     });
 
+  tasksHeading.innerText = selectedProject;
+
   info.innerText = JSON.stringify(tasks);
 }
 
@@ -204,8 +209,11 @@ function addProject() {
   // Get the project name from the input
   const projectName = projectNameInput.value;
 
-  // Add the project name to the projects array
-  projects.push(projectName);
+  // Add the project name to the projects array if not blank
+
+  if (projectName) {
+    projects.push(projectName);
+  }
 
   // Update the projects list in the DOM
   projectsContainer.innerHTML = "";
@@ -240,7 +248,7 @@ function addProject() {
 function updateOptions() {
   projectSelect.innerHTML = "";
   projects.forEach((project) => {
-    const option = document.createElement("option");
+    let option = document.createElement("option");
     option.value = project;
     option.innerText = project;
     projectSelect.appendChild(option);
@@ -249,4 +257,5 @@ function updateOptions() {
 
 displayAllTasks();
 addProject();
+updateOptions();
 info.innerText = JSON.stringify(tasks);
