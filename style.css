@@ -1,6 +1,8 @@
 * {
   box-sizing: border-box;
+  /*
   border: 1px solid blue;
+  */
 }
 
 body {
@@ -46,7 +48,6 @@ main {
   flex: 1;
   transition: transform 0.5s ease;
   align-items: flex-start;
-  
 }
 
 aside {
@@ -70,11 +71,9 @@ aside {
 }
 
 .content {
-  
   display: flex;
   flex-wrap: wrap;
-  width:100%
-  
+  width: 100%;
 }
 
 .tasks-divider {
@@ -83,19 +82,18 @@ aside {
   padding: 30px;
   height: min-content;
   box-sizing: border-box;
-  background-color: hotpink;
 }
 
 .task-container {
-  height:auto;
+  height: auto;
 }
 
 .task {
   display: flex;
   border-bottom: 1px solid lightgray;
   padding: 10px;
+  align-items: center;
 }
-
 
 .modal {
   display: flex;
@@ -157,4 +155,17 @@ select {
 
 .submit-button:hover {
   background-color: rgba(11, 121, 142, 1);
+}
+.buttons-container {
+  display: flex;
+  margin-left: auto;
+}
+#projects-container{
+  margin:20px;
+}
+.project-item {
+  margin: 10px;
+}
+#add-new-project {
+  margin-left:30px;
 }
