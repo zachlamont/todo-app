@@ -109,14 +109,6 @@ function displayAllTasks() {
       titleDiv.classList.add("task-title");
       taskDiv.appendChild(titleDiv);
 
-      const deleteButton = document.createElement("button");
-      deleteButton.innerText = "Delete";
-      deleteButton.classList.add("delete-button");
-      deleteButton.addEventListener("click", () => {
-        deleteTask(task.id);
-      });
-      taskDiv.appendChild(deleteButton);
-
       const editButton = document.createElement("button");
       editButton.innerText = "Edit";
       editButton.classList.add("edit-button");
@@ -133,6 +125,55 @@ function displayAllTasks() {
         document.getElementById("project").value = task.project;
       });
       taskDiv.appendChild(editButton);
+
+      const moveToProjectDiv = document.createElement("div");
+      moveToProjectDiv.classList.add("move-to-project");
+
+      const moveToProjectIcon = document.createElement("button");
+      moveToProjectIcon.classList.add("move-to-project-button");
+      moveToProjectIcon.innerText = "Move To Project";
+
+      let projectList;
+
+      moveToProjectIcon.addEventListener("click", () => {
+        if (!projectList) {
+          projectList = document.createElement("ul");
+          projectList.classList.add("project-list");
+
+          projects.forEach((project) => {
+            const projectListItem = document.createElement("li");
+            projectListItem.innerText = project;
+            projectListItem.addEventListener("click", () => {
+              task.project = project;
+              displayAllTasks();
+              projectList.style.display = "none";
+            });
+            projectList.appendChild(projectListItem);
+          });
+
+          projectList.style.display = "block";
+          moveToProjectDiv.appendChild(projectList);
+
+          document.addEventListener("click", (event) => {
+            if (!moveToProjectDiv.contains(event.target)) {
+              projectList.style.display = "none";
+            }
+          });
+        } else {
+          projectList.style.display = "block";
+        }
+      });
+
+      moveToProjectDiv.appendChild(moveToProjectIcon);
+      taskDiv.appendChild(moveToProjectDiv);
+
+      const deleteButton = document.createElement("button");
+      deleteButton.innerText = "Delete";
+      deleteButton.classList.add("delete-button");
+      deleteButton.addEventListener("click", () => {
+        deleteTask(task.id);
+      });
+      taskDiv.appendChild(deleteButton);
 
       if (task.complete) {
         completedTaskContainer.appendChild(taskDiv);
@@ -161,7 +202,8 @@ function addTask(tasks) {
   let project = document.getElementById("project").value;
 
   if (!editingTask) {
-    const id = Math.max(...tasks.map((task) => task.id)) + 1;
+    const id =
+      tasks.length > 0 ? Math.max(...tasks.map((task) => task.id)) + 1 : 1; //Give the task a unique ID
     const newTask = createTask(
       id,
       title,
