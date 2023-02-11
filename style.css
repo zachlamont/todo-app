@@ -82,6 +82,7 @@ aside {
   padding: 30px;
   height: min-content;
   box-sizing: border-box;
+  flex: 1;
 }
 
 .task-container {
@@ -164,7 +165,11 @@ select {
   margin: 20px;
 }
 .project-item {
-  margin: 10px;
+  font-size: 1em;
+  border: none;
+  padding: 5px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0);
 }
 #add-new-project {
   margin-left: 30px;
@@ -177,4 +182,24 @@ select {
 .light-button {
   background-color: rgba(255, 255, 255, 0);
   border: none;
+}
+#add-new-project {
+  font-size: 1em;
+  border: none;
+  padding: 5px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0);
+}
+#add-new-project:hover {
+  background-color: rgb(233, 233, 233);
+}
+
+.new-project-button {
+  height: 1em;
+  width: auto;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.project-item:hover {
+  background-color: rgb(233, 233, 233);
 }
