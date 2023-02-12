@@ -76,13 +76,28 @@ function createTask(id, title, description, dueDate, priority, project) {
     complete: false,
   };
 }
-//Display the modal
-addTaskButton.addEventListener("click", () => {
-  submitTaskButton.innerText = "Add Task";
 
-  addTaskModal.style.display = "flex";
-  updateOptions();
-});
+function setupModal(buttonText) {
+  let taskModalOpen = false;
+
+  // Display the modal
+  addTaskButton.addEventListener("click", () => {
+    submitTaskButton.innerText = buttonText;
+    addTaskModal.style.display = "flex";
+    taskModalOpen = true;
+    updateOptions();
+  });
+
+  // Hide the modal when the user clicks outside of addTaskForm
+  addTaskModal.addEventListener("click", (event) => {
+    if (taskModalOpen && !addTaskForm.contains(event.target)) {
+      addTaskModal.style.display = "none";
+      taskModalOpen = false;
+    }
+  });
+}
+
+setupModal("Add Task");
 
 //Display lists of tasks
 function displayAllTasks() {
@@ -128,15 +143,18 @@ function displayAllTasks() {
       editButton.appendChild(editIcon);
 
       const editTooltip = document.createElement("span");
-      editTooltip.classList.add("tooltiptext", "left-tooltip");
+      editTooltip.classList.add("tooltiptext", "bottom-tooltip");
       editTooltip.innerText = "Edit";
 
       editButton.appendChild(editTooltip);
 
+      let taskModalOpen = false;
+
       editButton.addEventListener("click", () => {
         submitTaskButton.innerText = "Edit Task";
+        addTaskModal.style.display = "flex";
+        taskModalOpen = true;
 
-        document.getElementById("add-task-modal").style.display = "flex";
         editingTask = true;
         editTaskId = task.id;
         document.getElementById("task-title").value = task.title;
@@ -145,13 +163,22 @@ function displayAllTasks() {
         document.getElementById("priority").value = task.priority;
         document.getElementById("project").value = task.project;
       });
+
+      // Hide the modal when the user clicks outside of addTaskForm
+      addTaskModal.addEventListener("click", (event) => {
+        if (taskModalOpen && !addTaskForm.contains(event.target)) {
+          addTaskModal.style.display = "none";
+          taskModalOpen = false;
+        }
+      });
+
       buttonsContainer.appendChild(editButton);
 
       const moveToProjectDiv = document.createElement("div");
       moveToProjectDiv.classList.add("move-to-project");
 
       const moveToProjectButton = document.createElement("button");
-      moveToProjectButton.classList.add("task-button");
+      moveToProjectButton.classList.add("task-button", "tooltip");
       moveToProjectButton.innerText = "";
       moveToProjectButton.title = "Move To Project";
 
@@ -162,6 +189,12 @@ function displayAllTasks() {
 
       moveToProjectButton.appendChild(moveToProjectIcon);
 
+      const moveToProjectTooltip = document.createElement("span");
+      moveToProjectTooltip.classList.add("tooltiptext", "bottom-tooltip");
+      moveToProjectTooltip.innerText = "Move To Project";
+
+      moveToProjectButton.appendChild(moveToProjectTooltip);
+
       let projectList;
 
       moveToProjectButton.addEventListener("click", () => {
@@ -171,6 +204,7 @@ function displayAllTasks() {
 
           projects.forEach((project) => {
             const projectListItem = document.createElement("li");
+            projectListItem.classList.add("project-list-item");
             projectListItem.innerText = project;
             projectListItem.addEventListener("click", () => {
               task.project = project;
@@ -198,7 +232,7 @@ function displayAllTasks() {
 
       const deleteButton = document.createElement("button");
       deleteButton.innerText = "";
-      deleteButton.classList.add("task-button");
+      deleteButton.classList.add("task-button", "tooltip");
       deleteButton.title = "Delete";
       deleteButton.addEventListener("click", () => {
         deleteTask(task.id);
@@ -210,6 +244,12 @@ function displayAllTasks() {
       deleteIcon.alt = "Delete Icon";
 
       deleteButton.appendChild(deleteIcon);
+
+      const deleteTooltip = document.createElement("span");
+      deleteTooltip.classList.add("tooltiptext", "bottom-tooltip");
+      deleteTooltip.innerText = "Delete";
+
+      deleteButton.appendChild(deleteTooltip);
 
       buttonsContainer.appendChild(deleteButton);
 
@@ -280,9 +320,20 @@ addTaskForm.addEventListener("submit", (event) => {
   addTask(tasks);
 });
 
+let projectModalOpen = false;
+
 // Show the modal when the 'New Project' button is clicked
 addProjectButton.addEventListener("click", () => {
   addProjectModal.style.display = "flex";
+  projectModalOpen = true;
+});
+
+// Hide the modal when the user clicks outside of addProjectForm
+addProjectModal.addEventListener("click", (event) => {
+  if (projectModalOpen && !addProjectForm.contains(event.target)) {
+    addProjectModal.style.display = "none";
+    projectModalOpen = false;
+  }
 });
 
 // Add the project to the projects array and update the projects list in the DOM
