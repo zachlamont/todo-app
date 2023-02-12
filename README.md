@@ -10,3 +10,5 @@ Next steps:
 -Let user click away from modal to close
 -hovering an icon displays what it does eg. 'Edit'
 -Modal fades in
+-Expand task to see full details including description
+

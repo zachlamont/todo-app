@@ -15,17 +15,37 @@
   </head>
   <body>
     <header>
-      <button class='light-button' id="menu-btn">
-        <img class='icon-light' src="icons/menu.svg" alt="Menu Icon" />
+      <button class="light-button tooltip" id="menu-btn">
+        <img
+          title="Show Projects"
+          class="icon-light"
+          src="icons/menu.svg"
+          alt="Menu Icon"
+        />
+        <span class="tooltiptext">Show Projects</span>
       </button>
       <h1>To-Do App</h1>
-      <button class='light-button' id="add-task-btn"><img class='icon-light' src="icons/plus-square.svg" alt="Edit Icon" /></button>
+      <button
+        title="Add New Task"
+        class="light-button tooltip"
+        id="add-task-btn"
+      >
+        <span class="tooltiptext left-tooltip">Add New Task</span>
+        <img class="icon-light" src="icons/plus-square.svg" alt="Edit Icon" />
+      </button>
     </header>
     <main id="main">
       <aside id="sidebar">
         <div id="projects-menu">
           <div id="projects-container"></div>
-          <button id="add-new-project"> <img class='new-project-button' src="icons/plus-circle.svg" alt="Edit Icon" />  New Project</button>
+          <button id="add-new-project">
+            <img
+              class="new-project-button"
+              src="icons/plus-circle.svg"
+              alt="Edit Icon"
+            />
+            New Project
+          </button>
         </div>
         <div id="info"></div>
       </aside>

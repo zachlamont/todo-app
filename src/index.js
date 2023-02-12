@@ -107,14 +107,32 @@ function displayAllTasks() {
       });
       taskDiv.appendChild(checkbox);
 
+      //Insert task title
       const titleDiv = document.createElement("div");
       titleDiv.innerText = task.title;
       titleDiv.classList.add("task-title");
       taskDiv.appendChild(titleDiv);
 
+      //Indert Edit button
       const editButton = document.createElement("button");
-      editButton.innerText = "Edit";
-      editButton.classList.add("edit-button");
+      editButton.innerText = "";
+      editButton.classList.add("task-button");
+      editButton.classList.add("tooltip");
+      editButton.title = "Edit";
+
+      const editIcon = document.createElement("img");
+      editIcon.classList.add("task-icon");
+      editIcon.src = "icons/edit.svg";
+      editIcon.alt = "Edit Icon";
+
+      editButton.appendChild(editIcon);
+
+      const editTooltip = document.createElement("span");
+      editTooltip.classList.add("tooltiptext", "left-tooltip");
+      editTooltip.innerText = "Edit";
+
+      editButton.appendChild(editTooltip);
+
       editButton.addEventListener("click", () => {
         submitTaskButton.innerText = "Edit Task";
 
@@ -132,13 +150,21 @@ function displayAllTasks() {
       const moveToProjectDiv = document.createElement("div");
       moveToProjectDiv.classList.add("move-to-project");
 
-      const moveToProjectIcon = document.createElement("button");
-      moveToProjectIcon.classList.add("move-to-project-button");
-      moveToProjectIcon.innerText = "Move To Project";
+      const moveToProjectButton = document.createElement("button");
+      moveToProjectButton.classList.add("task-button");
+      moveToProjectButton.innerText = "";
+      moveToProjectButton.title = "Move To Project";
+
+      const moveToProjectIcon = document.createElement("img");
+      moveToProjectIcon.classList.add("task-icon");
+      moveToProjectIcon.src = "icons/arrow-right-circle.svg";
+      moveToProjectIcon.alt = "Move To Project Icon";
+
+      moveToProjectButton.appendChild(moveToProjectIcon);
 
       let projectList;
 
-      moveToProjectIcon.addEventListener("click", () => {
+      moveToProjectButton.addEventListener("click", () => {
         if (!projectList) {
           projectList = document.createElement("ul");
           projectList.classList.add("project-list");
@@ -167,15 +193,24 @@ function displayAllTasks() {
         }
       });
 
-      moveToProjectDiv.appendChild(moveToProjectIcon);
+      moveToProjectDiv.appendChild(moveToProjectButton);
       buttonsContainer.appendChild(moveToProjectDiv);
 
       const deleteButton = document.createElement("button");
-      deleteButton.innerText = "Delete";
-      deleteButton.classList.add("delete-button");
+      deleteButton.innerText = "";
+      deleteButton.classList.add("task-button");
+      deleteButton.title = "Delete";
       deleteButton.addEventListener("click", () => {
         deleteTask(task.id);
       });
+
+      const deleteIcon = document.createElement("img");
+      deleteIcon.classList.add("task-icon");
+      deleteIcon.src = "icons/trash-2.svg";
+      deleteIcon.alt = "Delete Icon";
+
+      deleteButton.appendChild(deleteIcon);
+
       buttonsContainer.appendChild(deleteButton);
 
       taskDiv.appendChild(buttonsContainer);
